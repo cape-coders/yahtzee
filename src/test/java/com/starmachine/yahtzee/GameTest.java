@@ -103,6 +103,69 @@ public class GameTest {
 
     }
 
+    @Test
+    public void scoringOnesShouldSumNumberOfDieWithOne() {
+        setupScoringTest(List.of(1,1,1,2,3), ScoringCategory.ONES);
+        assertEquals(3, game.getScorecard().ones());
+    }
+
+    @Test
+    public void scoringOnesShouldScoreZeroIfNoOnes() {
+        setupScoringTest(List.of(3,3,4,5,2), ScoringCategory.ONES);
+        assertEquals(0, game.getScorecard().ones());
+    }
+
+    @Test
+    public void scoringTwosShouldSumNumberOfDieWithTwo() {
+        setupScoringTest(List.of(2,2,4,5,6), ScoringCategory.TWOS);
+        assertEquals(4, game.getScorecard().twos());
+    }
+
+    @Test
+    public void scoringTwosShouldScoreZeroIfNoTwos() {
+        setupScoringTest(List.of(3,3,4,5,6), ScoringCategory.TWOS);
+        assertEquals(0, game.getScorecard().twos());
+    }
+
+    @Test
+    public void scoringThreesShouldSumThreesOnDice() {
+        setupScoringTest(List.of(3,3,3,5,6), ScoringCategory.THREES);
+        assertEquals(9, game.getScorecard().threes());
+    }
+
+    
+    @Test
+    public void scoringThreesShouldScoreZeroIfNoThrees() {
+        setupScoringTest(List.of(2,1,2,5,6), ScoringCategory.THREES);
+        assertEquals(0, game.getScorecard().threes());
+    }
+
+    @Test
+    public void scoringAYahtzeeShouldScore50PointsWhenAllDiceAreSameNumber() {
+        setupScoringTest(List.of(6,6,6,6,6), ScoringCategory.YAHTZEE);
+        assertEquals(50, game.getScorecard().yahtzee());
+    }
+
+    @Test
+    public void scoringAYahtzeeShouldScore0PointsWhenAllDiceAreNotSameNumber() {
+        setupScoringTest(List.of(6,6,6,6,1), ScoringCategory.YAHTZEE);
+        assertEquals(0, game.getScorecard().yahtzee());
+    }
+
+    @Test
+    public void shouldStartGameWithNoYahtzeeScore() {
+        
+        assertEquals(null, game.getScorecard().yahtzee());
+    }
+
+
+    private void setupScoringTest(List<Integer> dice, ScoringCategory scoringCategory) {
+        randomRoller.setNumbersToRoll(dice);
+        game.roll();
+        game.score(scoringCategory);
+    }
+
+
 
 
 

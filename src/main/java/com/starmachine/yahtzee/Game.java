@@ -2,6 +2,7 @@ package com.starmachine.yahtzee;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Game {
     private int currentRoll = 0;
@@ -9,7 +10,7 @@ public class Game {
     private final RandomRoll randomRoller;
     private final List<Integer> currentDice = new ArrayList<>(List.of(1,1,1,1,1));
     private final List<Integer> lockedDiceIndexes = new ArrayList<>();
-
+    private Scorecard currentScorecard = new Scorecard();
     
     public Game(RandomRoll randomRoller) {
         this.randomRoller = randomRoller;
@@ -27,6 +28,10 @@ public class Game {
         return currentDice;
     }
 
+    public Scorecard.ReadScorecard getScorecard() {
+        return currentScorecard.getReadScorecard();
+	}
+
     
     void roll() {
         currentRoll++;
@@ -43,7 +48,27 @@ public class Game {
     void score(ScoringCategory scoringCategory) {
         currentRound++;
         currentRoll = 0;
+        switch (scoringCategory) {
+            case ONES:
+                currentScorecard.ones = scoreDieValue(1);
+                break;
+            case TWOS:
+                currentScorecard.twos = scoreDieValue(2);
+                break;
+            case THREES:
+                currentScorecard.threes = scoreDieValue(3);
+                break;
+            case YAHTZEE:
+                if (currentDice.stream().allMatch(x -> Objects.equals(x, currentDice.get(0)))) {
+                    currentScorecard.yahtzee = 50;
+                } else {
+                    currentScorecard.yahtzee = 0;
+                }
+            default:
+                break;
+        }
     }
+
 
     void toggleDieLockedState(Integer index) {
         if (lockedDiceIndexes.contains(index)) {
@@ -54,4 +79,13 @@ public class Game {
     }
 
 
+    private Integer scoreDieValue(int dieValue) {
+        Integer accumulator = 0;
+        for (Integer number : currentDice) {
+            if (number == dieValue) {
+                accumulator += dieValue;
+            }
+        }
+        return accumulator;
+    }
 }
