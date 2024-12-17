@@ -141,6 +141,42 @@ public class GameTest {
     }
 
     @Test
+    public void scoringFoursShouldSumNumberOfDiceWithFour() {
+        setupScoringTest(List.of(3,3,4,5,2), ScoringCategory.FOURS);
+        assertEquals(4, game.getScorecard().fours());
+    }
+
+    @Test
+    public void scoringFoursShouldScoreZeroIfNoFours() {
+        setupScoringTest(List.of(3,3,1,5,2), ScoringCategory.FOURS);
+        assertEquals(0, game.getScorecard().fours());
+    }
+
+    @Test
+    public void scoringFivesShouldSumNumberOfDiceWithFive() {
+        setupScoringTest(List.of(3,3,4,5,2), ScoringCategory.FIVES);
+        assertEquals(5, game.getScorecard().fives());
+    }
+
+    @Test
+    public void scoringFivesShouldScoreZeroIfNoFives() {
+        setupScoringTest(List.of(3,3,4,1,2), ScoringCategory.FIVES);
+        assertEquals(0, game.getScorecard().fives());
+    }
+
+    @Test
+    public void scoringSixesShouldSumNumberOfDiceWithSix() {
+        setupScoringTest(List.of(6,3,4,5,2), ScoringCategory.SIXES);
+        assertEquals(6, game.getScorecard().sixes());
+    }
+
+    @Test
+    public void ScoringSixesShouldScoreZeroIfNoSixes() {
+        setupScoringTest(List.of(3,3,4,5,2), ScoringCategory.SIXES);
+        assertEquals(0, game.getScorecard().sixes());
+    }
+
+    @Test
     public void scoringAYahtzeeShouldScore50PointsWhenAllDiceAreSameNumber() {
         setupScoringTest(List.of(6,6,6,6,6), ScoringCategory.YAHTZEE);
         assertEquals(50, game.getScorecard().yahtzee());
@@ -164,12 +200,6 @@ public class GameTest {
         game.roll();
         game.score(scoringCategory);
     }
-
-
-
-
-
-
 
 }
 
