@@ -58,6 +58,15 @@ public class Game {
             case THREES:
                 currentScorecard.threes = scoreDieValue(3);
                 break;
+            case FOURS:
+                currentScorecard.fours = scoreDieValue(4);
+                break;
+            case FIVES:
+                currentScorecard.fives = scoreDieValue(5);
+                break;
+            case SIXES:
+                currentScorecard.sixes = scoreDieValue(6);
+                break;
             case YAHTZEE:
                 if (currentDice.stream().allMatch(x -> Objects.equals(x, currentDice.get(0)))) {
                     currentScorecard.yahtzee = 50;
